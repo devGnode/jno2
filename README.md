@@ -125,3 +125,32 @@ jno2( selector ).on( "keydown[13,97,98]", function(  domElements, keyCode, targe
    }
 });
 ```
+
+## jno2.base
+### jon2.base.dec2bin
+```javascript
+jno2.base.dec2bin(15); // "1111"
+```
+### jon2.base.dec2hex 
+```javascript
+jno2.base.dec2hex(57005); // "DEAD"
+```
+### jon2.base.dec2hext
+```javascript
+jno2.base.dec2hext( -128, ( 1 || 2 || 4 || 8 ) ); // "80"
+```
+### jon2.base.arround
+```javascript
+jno2.base.arround("f", 2 ); // "000f"
+```
+### jon2.base.dec2oct
+```javascript
+jno2.base.dec2oct(15); // "1111"
+```
+### jon2.base.hex2dec
+```javascript
+jno2.base.dec2bin(128); // "200"
+```
+### jon2.base.vscanf
+
+
