@@ -126,31 +126,58 @@ jno2( selector ).on( "keydown[13,97,98]", function(  domElements, keyCode, targe
 });
 ```
 
-## jno2.base
-### jon2.base.dec2bin
+## jno2.base or jno2( selector ).base 
+### jon2.base.dec2bin( uint x )
 ```javascript
 jno2.base.dec2bin(15); // "1111"
 ```
-### jon2.base.dec2hex 
+### jon2.base.dec2hex( uint x )
 ```javascript
 jno2.base.dec2hex(57005); // "DEAD"
 ```
-### jon2.base.dec2hext
+### jon2.base.dec2hext( uint x, int sizeof( byte | word | dword | qword ))
 ```javascript
 jno2.base.dec2hext( -128, ( 1 || 2 || 4 || 8 ) ); // "80"
 ```
-### jon2.base.arround
+### jon2.base.arround( str r, int sizeof( byte | word | dword | qword ) )
 ```javascript
 jno2.base.arround("f", 2 ); // "000f"
 ```
-### jon2.base.dec2oct
+### jon2.base.dec2oct( uint x )
 ```javascript
 jno2.base.dec2oct(15); // "1111"
 ```
-### jon2.base.hex2dec
+### jon2.base.hex2dec( String hex )
 ```javascript
 jno2.base.dec2bin(128); // "200"
 ```
-### jon2.base.vscanf
+### jno2.vscanf
 
+## String.prototype extend
 
+### String.prototype.upper( void || int x )
+```javascript
+"footext".upper( ) // "FOOTEXT"
+"footext".upper(1) // "Footext"
+"footext".upper(2) // "FOotext"
+```
+### String.prototype.repeat( string value, int itr )
+```javascript
+
+"".repeat( "0", 8 ); // "00000000"
+
+```
+
+### String.prototype.htoChar( )
+```javascript
+
+"ffff".htoChar( ); // "ÿÿ"
+
+```
+### String.prototype.ctoHex( )
+```javascript
+
+"ÿÿ".ctoHex( ); // "ffff"
+"ÿÿ".ctoHex( ).upper( ); // "FFFF"
+
+```
