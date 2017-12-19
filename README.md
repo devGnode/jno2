@@ -16,6 +16,13 @@ var node = jno2( selector );
 | tagName .,#,[attib='value'] | options tag name |
 | .,#,tagName > 1 | exclure bigger than x, default ( * ) all |
 | .,#,tagName < 1 | exclure  smaller than x, default ( * ) all |
+| .,#,tagName : 1 | select an element |
+
+| Example      | Comment |
+| ------------- |:-------------:|
+| jno2("input[ype='text'] < 2") | take the elements smaller than 2 |
+| jno2("input[ype='text'] > 2") | take the elements bigger than 2 |
+| jno2(".foo : 2") | take element who's equal to 2 |
 
 ### .rmClass( String className )
 remove a class of one elements DOM return **this**
@@ -107,7 +114,7 @@ jno2( selector ).on( "click", function(  domElements [, argv ] ){
 
 | selector       | charCode     | charCode     |
 | ------------- |-------------:|:-------------|
-| keypess      | [13,,,...]  | Enter touch |
+| keypess      | [13,,,...]  | Enter key |
 | keydown      |  [97,,,...]       |  A letter  |
 | keyup |  [98,99,,...]       | B or C letter |
 
