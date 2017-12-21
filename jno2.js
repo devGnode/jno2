@@ -22,7 +22,9 @@ return new jno2.node( s );
 }, siz = /((\x20){0,}\<(\x20){0,}(\d+)|(\x20){0,}\>(\x20){0,}(\d+)|(\x20){0,}\:(\x20){0,}(\d+))/,
    slt = /^(\.|\#)([\d\w_]+)$/,
    attr= /([\w\d]+)\=(\'|\")(.+?)(\'\")/,
-   tag = /^([\w\d_]+)(\.([\w\d_]+)|\#([\w\d_]+)|\[([\w\d_]+)\=\'([\w\d_]+)\'\]|)$/;
+   tag = /^([\w\d_]+)(\.([\w\d_]+)|\#([\w\d_]+)|\[([\w\d_]+)\=\'([\w\d_]+)\'\]|)$/,
+
+   bdr = /^(\d+)(px|em|%|) (\w+) (rgb\(([\d ,]+)\)|\#([\dabcdef]){3,6})$/;
 
 /*StringExtends*/
 String.prototype.upper = function( a ){
@@ -81,10 +83,15 @@ var merge = ( window.merge = jno2.extend = function ( handle, element ){
 		}else if( arguments.length == 1 && this == window )
 			return;;
 		
-		try{
+		try{ 
+		if ( element.length != undefined ){
+			for(i=0; i < tmp.length; i++){
+				handle[ i ] = element[ i ];			
+			}
+		}else
 		for( tmp in element ){
 			handle[ tmp ] = element[ tmp ];
-		}
+		};;
 		}catch(e){};
 		
 return handle;
@@ -104,7 +111,7 @@ jno2.extend( {
 	return (typeof a === "Array" || typeof a === "object" )
 	},
 	isDOM:function( a ){
-	return (a.nodeType && a.nodeType === 1 );
+	return (a && a.nodeType && a.nodeType === 1 );
 	},
 	
 	_ce:function( a ){
@@ -125,7 +132,7 @@ jno2.extend( {
 	return hdlp.removeChild( node ); 
 	},
 
-	made:function( hdl, elts, val ){
+	made:function( hdl, elts, val, callback ){
 		var tmp;
 		try{
 			if( this.isArray( elts ) ){
@@ -133,7 +140,9 @@ jno2.extend( {
 				for( tmp in elts ){
 					
 					this.isArray( elts[ tmp ] ) ?
-					this.made( hdl[ tmp ], elts[ tmp ] ) : 
+					this.made( hdl[ tmp ], elts[ tmp ], undefined, callback ) : 
+					callback && typeof callback == "function" ?
+					callback.call( hdl, tmp, hdl[ tmp ] ) :
 					hdl[ tmp ] = elts[ tmp ];
 				}
 
@@ -171,16 +180,17 @@ jno2.extend( {
 	return hdl;
 	},
 
-	isClass:function( hdl, a ){
-	return ( hdl.className.split(" ").indexOf( a  ) > -1 )
-	},
 
+	dint:function( a ){
+	var tmp;
+	return (tmp=/([0-9]*)(px|%|em|)/.exec( a ) ) ? parseFloat( tmp[ 1 ] ) : 0; 
+	},
 	size:function( hdl, a, b ){
 		var tmp;
 
 		if( b == undefined ){
 			if( tmp = /([0-9]*)(px|%|em|)/.exec(
-				 ( hdl[ "offset"+a.upper( 1 ) ] || hdl[ a ] || hdl.style[a] ) 
+				 ( hdl[ a ] || hdl.style[a] || hdl[ "offset"+a.upper( 1 ) ]  ) 
 			) ){
 			return !isNaN( parseInt( tmp[ 1 ] ) ) ? parseFloat( tmp[ 1 ] ) : null;
 			}else
@@ -192,31 +202,104 @@ jno2.extend( {
 		);
 	return hdl;
 	},
-	sort:function( phdl, opts, callback ){
-		var tmp, ret = [];
+	sort:function( phdl, opts, callback, domHandler  ){
+		var tmp, b, j = 0;
 		
-		jno2.each( jno2._gt( opts.calls, opts.name ), function( hdl, i ){
+		opts = jno2.extend( { less:0, more:0, one:0, opts:0 }, opts );
+		jno2.each( ( this.isArray( domHandler ) && !jno2.isDOM( domHandler ) ? domHandler : jno2._gt( opts.calls, opts.name, domHandler ) ), function( hdl, i ){
 			
-			if( (( opts.more && i > opts.more ) ? 1 :
-			      ( opts.less && i < opts.less ) ? 1 :
-			      ( opts.one  && i == opts.one ) ? 1 :
-			      ( !opts.one && !opts.more && !opts.less ) ? 1 :
-				0 ))
-			phdl[ phdl.length ] = hdl,
-			phdl.length++;;
+			if( opts.opts.enbld && hdl[ opts.opts.calls === "." ? 'className' : 'id' ].split(' ').indexOf( opts.opts.name ) > -1 ||
+			    opts.opts.enbld && opts.opts.calls == "attr" && hdl[ opts.opts.name ] === opts.opts.value )
+			i-=j,b = true;
+			else if( opts.opts.enbld ) j++;;
+			
+			/*a && b || a 
+			1 && 0 || 1 = 1
+			1 && 1 || 1 = 1
+			0 && 1 || 0 = 0
+			0 && 0 || 0 = 0*/
+			if( ( (tmp = ( opts.more && i >= opts.more ) || ( opts.less && i < opts.less ) ||  ( opts.one  && i == opts.one ) ||  ( !opts.one && !opts.more && !opts.less ) ) && b ) || ( tmp && !opts.opts.enbld ) ){
+				
+				typeof callback === "function" ?
+				callback.call( phdl, hdl, i ) : 
+				(phdl[ phdl.length ] = hdl,
+				phdl.length++);
+			}
 
 		return 1;
 		});
 	return phdl;
 	},
-	child:function( ){
 
+	traversing:function( hdl, opts, cvoid ){
+		var tmp = [];
+
+		this.each( hdl.children, function( phdl ){
+			
+			if( phdl.children && phdl.children.length > 0 ) { 
+				jno2.traversing(
+					phdl,
+					opts,
+					( cvoid || tmp )
+				);
+			}else
+			( cvoid || tmp ).push( phdl );
+					
+		return 1
+		});
+	return ( cvoid || tmp );
+	},
+
+	isClass:function( hdl, a ){
+	return ( hdl.className.split(" ").indexOf( a  ) > -1 )
+	},
+	child:function( hdl, opts ){
+	return this.sort( 
+			{ length:0 },
+			opts,
+			undefined, hdl 
+		);	
 	},
 	content:function( a, b, c ){
 
 	},
 });
 
+/*
+* parsingSlector formerly shortcut
+*/
+jno2.extend( {
+	parseSelector:function( s ){
+		var sort = {
+		more:0, less:0, one:0,
+		calls:"", opts:{enbld:0}, name:"",
+		},tmp;
+
+		/* selector <|>|: x*/
+		if( tmp = siz.exec( s ) ){
+		sort[ tmp[4] ? "less" : tmp[7] ? "more" : "one" ] = tmp[4] ? tmp[4] : tmp[7] ? tmp[7] : tmp[10];
+		s = s.replace(
+			tmp[0],
+			""
+		);
+		}
+		/*.|#name*/
+		if( tmp = slt.exec( s ) ){
+			sort.calls = tmp[1];
+			sort.name  = tmp[2];
+		/*tagname selector*/
+		}else if( tmp = tag.exec( s ) ){
+			sort.calls="";
+			sort.name =tmp[1];
+			
+			sort.opts.calls = tmp[3] ? "." : tmp[4] ? "#" : tmp[5] ? "attr" : "";
+			sort.opts.enbld = sort.opts.calls.length > 0;
+			sort.opts.name  = tmp[3] ? tmp[3] : tmp[4] ? tmp[4] : tmp[5] ? tmp[5] : "";
+			sort.opts.value = tmp[5] ? tmp[6] : null;  
+		}
+	return sort;
+	},
+});
 jno2.events = (function( slf ){
 	var evts = "dblclick,click,mousemove,mouseout,mousedown,mouseup,mouseover,keypress,keydown,keyup,"+
 		"blur,focus,resize,submit,load,unload,drag,dragstart,dragover,dragleave,drop,scroll,change,"+
@@ -277,7 +360,7 @@ return {
 jno2.node = function( s ){
 	var tmp;
 
-	this.i = this.length = 0;
+	this.i = this.length = this.c = 0;
 
 	// node
 	if( s instanceof jno2.node )
@@ -289,56 +372,29 @@ jno2.node = function( s ){
 	else if( jno2.isDOM( s ) && !s.jno2 ){
 		this[this.length] = s;
 		this.length++;
-	
-	// createElement
+	// ArrayDOM
+	}else if( jno2.isArray( s ) && !jno2.isDOM( s )){
+		jno2.sort( this, {}, function( hdl ){
+
+			if( jno2.isDOM( hdl ) )
+			this[ this.length ] = hdl,
+			this.length++;;
+
+		}, s );
+	// create new Element DOM
 	}else if( (tmp=/^\<([\d\w]+)(.+|)\>$/.exec(s) ) ){
 		this[this.length] = jno2.DOM( tmp[1] );	
 		this.length++;
-	// 
+	/* text selctor*/
 	}else{
-		var sort = {
-			more:0, less:0, one:0,
-			calls:"", opts:{enbld:0}, name:"",
-		};
-		// sort
-		if( tmp = siz.exec( s ) ){
-			sort[ tmp[4] ? "less" : tmp[7] ? "more" : "one" ] = tmp[4] ? tmp[4] : tmp[7] ? tmp[7] : tmp[10];
-			s = s.replace(
-				tmp[0],
-				""
-			);
-		}
-		if( tmp = slt.exec( s ) ){
-			sort.calls = tmp[1];
-			sort.name = tmp[2];
-		
-		}else if( tmp = tag.exec( s ) ){
-			sort.calls="";
-			sort.name =tmp[1];
-			
-			sort.opts.enbld = 1;
-			sort.opts.calls = tmp[3] ? "." : tmp[4] ? "#" : tmp[5] ? "attr" : "";
-			sort.opts.enbld = sort.opts.calls.length > 0;
-			sort.opts.name  = tmp[3] ? tmp[3] : tmp[4] ? tmp[4] : tmp[5] ? tmp[5] : "";
-			sort.opts.value = tmp[5] ? tmp[6] : null;  
-		}
 		jno2.sort(
 			this,
-			sort 
+			jno2.parseSelector( s ) 
 		 );
+		if( this.length === 0 );
 
 	}
 	
-	/*var slf = this;
-	jno2.each( document.getElementsByTagName("div"), function( hdl, i ){
-		
-		if( typeof i === "number" ){
-			slf[ slf.length ] = hdl;
-			slf.length++;
-		}
-	return 1;
-	});*/
-
 return this;
 };
 
@@ -352,7 +408,7 @@ jno2.extend( jno2.node.prototype,
 	return jno2( this[ this.i ] );
 	},
 	start:function(){
-	return jno2( this[ 0 ] );
+	return jno2( this[ this.i = 0 ] );
 	},
 	end:function( ){
 	return jno2( this[ this.length-1 ] );
@@ -363,7 +419,7 @@ jno2.extend( jno2.node.prototype,
 jno2.node.extend = merge;
 jno2.extend( jno2.node.prototype,
 {
-
+	
 	rmClass:function( n ){
 	return this.each(function( hdl ){
 		var tmp,i;
@@ -414,9 +470,15 @@ jno2.extend( jno2.node.prototype,
 	
 	attrib:function( a, b ){
 	return arguments.length == 2 || (jno2.isArray( a ) && !b) ? this.each( function( hdl ){
+
 			this.made( a, b );
 		return 1;
 		}) : 
+		arguments.length == 1 && jno2.isArray( a )  ?
+		jno2.made( this, a, undefined, function( key, val ){
+			alert(655 );
+			//a[key]=val;
+		}) :
 		arguments.length == 1 && typeof a == "string" ?
 		this[ this.i ][ a ] : this;
 	},
@@ -426,8 +488,6 @@ jno2.extend( jno2.node.prototype,
 		}
 	},
 
-	// attib, val
-	// obj => { attib: val, deppAttrib:{} }
 	made:function( a, b ){
 	return this.each( function( hdl ){
 		jno2.made( 
@@ -508,7 +568,7 @@ jno2.extend( jno2.node.prototype,
 		this.val( a, b ); 
 	},
 	outer:function( a ){
-	return this[0].outerHTML;
+	return this[this.i].outerHTML;
 	},
 
 });
@@ -516,6 +576,7 @@ jno2.extend( jno2.node.prototype,
 /*DOM*/
 jno2.extend( jno2.node.prototype,
 {
+	/*delete an element*/
 	del:function( ){
 		this.each(function( hdl ){
 			if( hdl.parentNode )
@@ -526,45 +587,90 @@ jno2.extend( jno2.node.prototype,
 		});
 	return void 0;
 	},
-	
+	child:function( a ){
+	return jno2( 
+		jno2.child( this[ this.i ], jno2.parseSelector( a ) ) 
+		);
+	},
+	t:function( ){
+		var t;
+		console.log( t=jno2.traversing( this[ this.i ], jno2.parseSelector( "#tt" ) ) );
+		
+		console.log( jno2.sort(
+			{length:0},
+			jno2.parseSelector( "#foo" ),
+		undefined,
+		t
+		) );
+	},
 	clone:function( ){
-		if( this[ this.i ].cloneNode ){
+		if( !this[ this.i ].cloneNode ){
 			return this[ this.i ].cloneNode( 
 				true 
 			);
 		}else{
-			//jno2( this[ this.i ].nodeName
+			console.log( jno2( "<"+this[ this.i ].nodeName.toLowerCase( ) +">" ) )
 		}
 	},
 	app:function( a ){
-		
+		var slf = this;
+		/*an object jno2*/
+	return a instanceof jno2.node ?
+		(jno2.each( a ,function( hdl ){
+			slf.each(function( _h ){
+				_h.appendChild( 
+					hdl
+				);
+			return 1;
+			});
+		return 1;
+		}),this ) : 
+		/*DOM element*/
+		jno2.isDOM( a ) || typeof a === "string" ?
+		this.each(function( hdl ){
+			
+			jno2.isDOM( a ) ?
+			hdl.appendChild( a ) :
+			jno2( hdl ).val( a );
+		return 1;			
+		}) : this;				
 	},
 	getParent:function( ){
-
+	return jno2( this[ this.i ].parentNode );
 	},
-	get:function( ){
-
+	/*work with domHanler.children method*/
+	get:function( k ){
+	return this[ this.i ].children ?
+	       jno2( this[ this.i ].children[ ( k || (this.c = this.c >= 0 && this.c < this[ this.i ].children ? this.c : 0 ) ) ] ) :
+	       null
 	},
 	prev:function( ){
-
+	return this.get( this.c-- );
 	},
 	next:function( ){
-
+	return this.get( this.c++ );
 	},
 	first:function(){
-
+	return this.get( this.c = 0 );
 	},
-	insert:function(){
-
-	},
+	/**/
 	insertBefore:function( ){
 
 	},
 	insertAfter:function( ){
 
 	},
-	any:function( ){
-
+	any:function( slctr, callback ){
+		var slf = this;	
+		jno2.each( jno2( slctr ), function( hdl, i ){
+			callback.call( 
+				jno2( slf ),
+				hdl,
+				i
+			);
+		return 1;
+		});
+	return this;
 	},
 });
 
@@ -619,6 +725,18 @@ jno2.extend( jno2.node.prototype,
 		width : this[ this.i ].offsetWidth, height: this[ this.i ].offsetHeight,
 		top:  this[ this.i ].offseTop, leff:  this[ this.i ].offset.left
 		};
+	},
+	// since jno2
+	inWidth:function( ){
+		var tmp;
+
+		tmp = this.width( );
+		console.log( ( this.width( ) + jno2.dint( this.css("padding") ) ) );
+		 if( tmp = bdr.exec( this.css("border" ) ) ){
+			console.log( ( this.width( ) + jno2.dint( this.css("padding") ) + parseInt( tmp[1] ) * 2  ) );
+			this.css("width",( this.width( ) + jno2.dint( this.css("padding") ) + parseInt( tmp[1] ) * 2  ));
+		}
+	return ( this.width( ) + jno2.dint( this.css("padding") ) + parseInt( tmp[1] ) * 2  );
 	},
 
 });
@@ -751,4 +869,5 @@ return{
 /**/
 
 slf.jno2 = jno2;
+
 })( self || window );
