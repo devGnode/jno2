@@ -25,7 +25,7 @@ var node = jno2( selector );
 | jno2(".foo : 2") | take element who's equal to 2 |
 
 ### .rmClass( String className )
-remove a class of one elements DOM return **this**
+remove a class of one elements DOM this function will return current object jno2
 ```javascript
 var node = jno2( selector );
   node.rmClass("foo")
