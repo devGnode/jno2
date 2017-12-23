@@ -339,7 +339,7 @@ jno2.base.dec2oct(15); // "1111"
 
 ### jno2.vscanf
 
-Like printf in c,c++ language, more or less.
+Look like printf in c,c++ language, more or less.
 
 | Type     | Output  | argv |
 | ------------- |:-------------|:-------------|
