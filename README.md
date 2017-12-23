@@ -201,7 +201,7 @@ jno2( selector ).getParent( );
 ```
 ### .get(  void || *int* element )
 
-these function get, prev and next who're represented below : allow to browse children elements quickly of his parent,but not in deeply, for browse it in depply use **.child** or **.any** function. 
+these function get, prev, next and first who're represented below : allow to browse children elements quickly of his parent,but not in deeply, for browse it in depply use **.child** or **.any** function. 
 
 ```javascript
 
@@ -223,6 +223,13 @@ jno2( selector ).next( );  // current target 1
 
 jno2( selector ).get( 5 ); // current target 5
 jno2( selector ).prev( );  // current target 4
+
+```
+### .first(  void ) 
+
+```javascript
+
+jno2( selector ).first( ); // current target 0
 
 ```
 
