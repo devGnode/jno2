@@ -1,4 +1,5 @@
 # jno2
+
 formerly gnode
 
 ## :one: API documentation
@@ -23,6 +24,7 @@ var node = jno2( selector );
 | jno2("input[ype='text'] < 2") | take the elements smaller than 2 |
 | jno2("input[ype='text'] > 2") | take the elements bigger than 2 |
 | jno2(".foo : 2") | take element who's equal to 2 |
+## Attributes
 
 ### .length
 
@@ -31,6 +33,9 @@ Length of object
 ### .i
 
 Offset of current target node
+
+## Methods
+
 ### .eq( void || *int* node )
 
 ```javascript
@@ -50,8 +55,16 @@ return last element getting
 ```javascript
   node.end( );
 ```
+### .each( *Handle* callbak )
 
-example:
+return last element getting
+```javascript
+  node.each( function( hdl, i ){
+    // this === node
+    
+  });
+```
+**example**:
 
 ```html
 <div class="a"></div>
@@ -66,7 +79,7 @@ var node = jno2("div");
   node.end( ); // .c
 ```
 
-## :one:.:two: Attributes
+## :two: Attributes
 
 ### .rmClass( *String* className )
 remove a class of one elements DOM this function will return current object jno2
@@ -160,7 +173,7 @@ jno2( selector ).attr( "type", "text" );
 jno2( selector ).attr( "type" ); // get value
 
 ```
-## :two: Node methods
+## :three: Node methods
 
 ### .del( void )
 Delete node
@@ -238,6 +251,7 @@ try to resolve a child(s) in order to return it by the callback.
 ```javascript
 
 jno2( selector ).any("input[type='text']",function( hdl, i ){
+   // this === jno2( hdl )
   console.log( hdl );
 });
 
@@ -271,7 +285,7 @@ jno2( selector ).on( "keydown[13,97,98]", function(  domElements, keyCode, targe
 });
 ```
 
-## :three: jno2.base or jno2( selector ).base 
+## :four: jno2.base or jno2( selector ).base 
 ### jon2.base.dec2bin( uint x )
 ```javascript
 jno2.base.dec2bin(15); // "1111"
