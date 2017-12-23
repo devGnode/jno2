@@ -24,14 +24,14 @@ var node = jno2( selector );
 | jno2("input[ype='text'] > 2") | take the elements bigger than 2 |
 | jno2(".foo : 2") | take element who's equal to 2 |
 
-### .rmClass( String className )
+### .rmClass( *String* className )
 remove a class of one elements DOM this function will return current object jno2
 ```javascript
 var node = jno2( selector );
   node.rmClass("foo")
 ```
 
-### .isClass( String className )
+### .isClass( *String* className )
 Check if a class existing in an element DOM return **boolean**
 ```javascript
 var node = jno2( selector );
@@ -39,7 +39,7 @@ var node = jno2( selector );
     // existing
    }
 ```
-### .addClass( String className )
+### .addClass( *String* className )
 add a class an element DOM
 ```javascript
 
@@ -47,13 +47,13 @@ jno2( selector ).addClass( "foo" );
   
 ```
 
-### .Class( String className )
+### .Class( *String* className )
 link to addClass
 ```javascript
 jno2( selector ).Class( "foo" );
 ```
 
-### .id( [ void ||   String id ] )
+### .id( [ void ||   *String* id ] )
 add id or get id name
 ```javascript
  //add
@@ -61,7 +61,7 @@ jno2( selector ).id( "foo" );
  //get
 jno2( selector ).id( );
 ```
-### .made( [ JSON attibuts || String attribName, String attribValue ] )
+### .made( [ *JSON* attibuts || *String* attribName, *String* attribValue ] )
 modifiy an object
 ```javascript
 
@@ -71,7 +71,7 @@ jno2( selector ).made( {
  
 jno2( selector ).made( "type", "text" );
 ```
-### .css( [ JSON attibuts || String cssRuleName, String cssRuleValue ] )
+### .css( [ *JSON* attibuts || *String* cssRuleName, *String* cssRuleValue ] )
 modifiy css rule(s)
 ```javascript
 
@@ -82,7 +82,7 @@ jno2( selector ).made( {
 jno2( selector ).made( "fontSize", "15px" );
 ```
 
-### .data( [  JSON attibuts || String dataName, String dataValue || String dataGetValue ] )
+### .data( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue || *String* dataGetValue ] )
 modifiy dataset value(s)
 ```javascript
 
@@ -93,19 +93,106 @@ jno2( selector ).data( {
 jno2( selector ).data( "bar", 150 );
 jno2( selector ).data( "bar" ); // == 150
 ```
-### .dataInt( [  JSON attibuts || String dataName, String dataValue || String dataGetValue ] )
+### .dataInt( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue ] )
 ```javascript
  
 ( typeof jno2( selector ).dataInt( "bar ) === "number");
 ```
 
-### .dataFloat( [  JSON attibuts || String dataName, String dataValue || String dataGetValue ] )
+### .dataFloat( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue ] )
 ```javascript
 jno2( selector ).dataFloat( "bar", 1.25 )
 jno2( selector ).dataFloat( "bar"); // 1.25
 ```
+### .attr( [ *JSON* attibuts || *String* attribName, *String* attribValue || *String* value ] )
+modifiy an object
+```javascript
 
-### .on( String eventCaller, Handle callback )
+jno2( selector ).attr( { 
+  type:"text",name:'foo',value:"mailto"
+  } );
+ 
+jno2( selector ).attr( "type", "text" );
+jno2( selector ).attr( "type" ); // get value
+
+```
+## :two: Node methods
+
+### .del( void )
+Delete node
+```javascript
+
+jno2( selector ).del( );
+
+```
+### .child( *String* selector )
+try to resolve a child(s) in order to return it.
+```javascript
+
+jno2( selector ).child("div < 5");
+
+```
+### .clone(  void )
+return a clone of current node.
+```javascript
+
+jno2( selector ).clone( );
+
+```
+
+### .app(  *Object* jno2 || *Object* DOMElement )
+add a child node into the current node.
+```javascript
+
+jno2( selector ).app( jno2('div>') );
+jno2( selector ).app( DOM );
+
+```
+
+### .getParent(  void )
+```javascript
+
+jno2( selector ).getParent( );
+
+```
+### .get(  void || *int* element )
+
+these function get, prev and next represented below, browse children, browse it quickly, but not in deeply. 
+
+```javascript
+
+jno2( selector ).get( ); // return current
+jno2( selector ).get( 0 ); 
+
+```
+### .next(  void ) 
+
+```javascript
+
+jno2( selector ).get( 0 ); // current target 0
+jno2( selector ).next( );  // current target 1
+
+```
+### .prev(  void ) 
+
+```javascript
+
+jno2( selector ).get( 5 ); // current target 5
+jno2( selector ).prev( );  // current target 4
+
+```
+
+### .any(  *String* Selector, *Handle* callback )
+try to resolve a child(s) in order to return it by the callback.
+```javascript
+
+jno2( selector ).any("input[type='text']",function( hdl, i ){
+  console.log( hdl );
+});
+
+```
+
+### .on( *String* eventCaller, *Handle* callback )
 ```javascript
 jno2( selector ).on( "click", function(  domElements [, argv ] ){
   // this === jno2( selector )
@@ -133,7 +220,7 @@ jno2( selector ).on( "keydown[13,97,98]", function(  domElements, keyCode, targe
 });
 ```
 
-## jno2.base or jno2( selector ).base 
+## :three: jno2.base or jno2( selector ).base 
 ### jon2.base.dec2bin( uint x )
 ```javascript
 jno2.base.dec2bin(15); // "1111"
