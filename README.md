@@ -45,13 +45,13 @@ Offset of target node selected
 
 ### .start( void )
 
-return first element getting
+return first element obtained
 ```javascript
   node.start( );
 ```
 ### .end( void )
 
-return last element getting
+return last element obtained
 ```javascript
   node.end( );
 ```
