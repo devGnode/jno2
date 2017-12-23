@@ -30,7 +30,7 @@ Length of obet
 
 ### .i
 
-Current target node
+Offset of current target node
 ### .eq( void || *int* node )
 
 ```javascript
@@ -38,8 +38,19 @@ Current target node
   node.eq( ); // current taget node
 ```
 
-### .rmClass( *String* className )
-### .rmClass( *String* className )
+### .start( void )
+
+return first element getting
+```javascript
+  node.start( );
+```
+### .end( void )
+
+return last element getting
+```javascript
+  node.end( );
+```
+## :one:.:two: Attributes
 
 ### .rmClass( *String* className )
 remove a class of one elements DOM this function will return current object jno2
