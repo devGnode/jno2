@@ -157,7 +157,7 @@ jno2( selector ).getParent( );
 ```
 ### .get(  void || *int* element )
 
-these function get, prev and next represented below, browse children, browse it quickly, but not in deeply. 
+these function get, prev and next who're represented below : allow to browse children elements quickly of his parent,but not in deeply, for browse it in depply use **.child** or **.any** function. 
 
 ```javascript
 
