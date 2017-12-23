@@ -97,7 +97,7 @@ var node = jno2( selector );
    }
 ```
 ### .addClass( *String* className )
-add a class an element DOM
+Add a class to an element DOM
 ```javascript
 
 jno2( selector ).addClass( "foo" );
@@ -111,7 +111,7 @@ jno2( selector ).Class( "foo" );
 ```
 
 ### .id( [ void ||   *String* id ] )
-add id or get id name
+Add an id to an element, or getting this value.
 ```javascript
  //add
 jno2( selector ).id( "foo" );
@@ -119,7 +119,7 @@ jno2( selector ).id( "foo" );
 jno2( selector ).id( );
 ```
 ### .made( [ *JSON* attibuts || *String* attribName, *String* attribValue ] )
-modifiy an object
+Modifiy attribtes of an object.
 ```javascript
 
 jno2( selector ).made( { 
@@ -129,7 +129,8 @@ jno2( selector ).made( {
 jno2( selector ).made( "type", "text" );
 ```
 ### .css( [ *JSON* attibuts || *String* cssRuleName, *String* cssRuleValue ] )
-modifiy css rule(s)
+
+Modifiy css rule(s)
 ```javascript
 
 jno2( selector ).made( { 
@@ -140,7 +141,8 @@ jno2( selector ).made( "fontSize", "15px" );
 ```
 
 ### .data( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue || *String* dataGetValue ] )
-modifiy dataset value(s)
+
+Modifiy dataset value(s).
 ```javascript
 
 jno2( selector ).data( { 
@@ -162,7 +164,7 @@ jno2( selector ).dataFloat( "bar", 1.25 )
 jno2( selector ).dataFloat( "bar"); // 1.25
 ```
 ### .attr( [ *JSON* attibuts || *String* attribName, *String* attribValue || *String* value ] )
-modifiy an object
+Modifiy the attributes of an object.
 ```javascript
 
 jno2( selector ).attr( { 
@@ -183,14 +185,14 @@ jno2( selector ).del( );
 
 ```
 ### .child( *String* selector )
-try to resolve a child(s) in order to return it.
+Try to resolve a child(s) in order to return it.
 ```javascript
 
 jno2( selector ).child("div < 5");
 
 ```
 ### .clone(  void )
-return a clone of current node.
+Return a clone of current node.
 ```javascript
 
 jno2( selector ).clone( );
@@ -198,7 +200,7 @@ jno2( selector ).clone( );
 ```
 
 ### .app(  *Object* jno2 || *Object* DOMElement )
-add a child node into the current node.
+Add a child node into the current node.
 ```javascript
 
 jno2( selector ).app( jno2('div>') );
@@ -214,7 +216,7 @@ jno2( selector ).getParent( );
 ```
 ### .get(  void || *int* element )
 
-these function get, prev, next and first who're represented below : allow to browse children elements quickly of his parent,but not in deeply, for browse it in depply use **.child** or **.any** function. 
+These function get, prev, next and first who're represented below : allow to browse children elements quickly of his parent,but not in deeply, for browse it in depply use **.child** or **.any** function. 
 
 ```javascript
 
@@ -247,7 +249,7 @@ jno2( selector ).first( ); // current target 0
 ```
 
 ### .any(  *String* Selector, *Handle* callback )
-try to resolve a child(s) in order to return it by the callback.
+Try to resolve a child(s) in order to return it by the callback.
 ```javascript
 
 jno2( selector ).any("input[type='text']",function( hdl, i ){
