@@ -681,19 +681,9 @@ jno2.extend( jno2.node.prototype,
 
 	},
 	any:function( slctr, callback ){
-		var slf = this;
-
 		jno2.sort( {length:0},  jno2.parseSelector( slctr ), function( hdl, i ){
 			callback.call( jno2( hdl ), hdl, i );
 		}, this[ this.i ] );
-		/*jno2.each( jno2( slctr ), function( hdl, i ){
-			callback.call( 
-				jno2( slf ),
-				hdl,
-				i
-			);
-		return 1;
-		});*/
 	return this;
 	},
 });
