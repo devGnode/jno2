@@ -172,6 +172,17 @@ jno2.base.dec2oct(15); // "1111"
 
 ### jno2.vscanf
 
+Like printf in c,c++ language, more or less.
+
+| Type     | Value  | accepted |
+| ------------- |:-------------|:-------------|
+| %i         | Integer           |  Integer, string, strHexValue  |
+| %c          | Character |  Integer, String, strHexValue  |
+| %h or %x02         | Hexadecimal            |  Integer, String, strHexValue  | 
+| %b    | Binary            |  Interger, String  |
+| %o   | Octal            |  Integer, String  |
+
+
 ## String.prototype extend
 
 ### String.prototype.upper( void || int x )
