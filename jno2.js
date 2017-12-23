@@ -20,9 +20,9 @@
 var jno2 = function( s ){
 return new jno2.node( s );
 }, siz = /((\x20){0,}\<(\x20){0,}(\d+)|(\x20){0,}\>(\x20){0,}(\d+)|(\x20){0,}\:(\x20){0,}(\d+))/,
-   slt = /^(\.|\#)([\d\w_]+)$/,
+   slt = /^(\.|\#)([\d\w\_]+)$/,
    attr= /([\w\d]+)\=(\'|\")(.+?)(\'\")/,
-   tag = /^([\w\d_]+)(\.([\w\d_]+)|\#([\w\d_]+)|\[([\w\d_]+)\=\'([\w\d_]+)\'\]|)$/,
+   tag = /^([\w\d_]+)(\.([\w\d\_]+)|\#([\w\d\_]+)|\[([\w\d\_]+)\=\'([\w\d\_]+)\'\]|)$/,
 
    bdr = /^(\d+)(px|em|%|) (\w+) (rgb\(([\d ,]+)\)|\#([\dabcdef]){3,6})$/;
 
@@ -118,7 +118,7 @@ jno2.extend( {
 	return slf.document.createElement( a );
 	},
 	DOM:function( a ){
-	return _ce( a );
+	return jno2._ce( a );
 	},
 	_gt:function( a, b, c ){
 		c = c || slf.document;
@@ -158,6 +158,14 @@ jno2.extend( {
 	each:function( hdl, cllbck, ptr ){
 		var tmp,i;
 		try{
+		
+		if( jno2.isDOM( hdl ) ){		
+		cllbck.call( 
+			( ptr || hdl ),
+			 hdl,
+			 0
+		 );return hdl}
+
 		if( hdl.length != undefined ){
 			for( i=0; i < hdl.length; i++ ){
 				if( !cllbck.call( 
@@ -212,7 +220,7 @@ jno2.extend( {
 			    opts.opts.enbld && opts.opts.calls == "attr" && hdl[ opts.opts.name ] === opts.opts.value )
 			i-=j,b = true;
 			else if( opts.opts.enbld ) j++;;
-			
+
 			/*a && b || a 
 			1 && 0 || 1 = 1
 			1 && 1 || 1 = 1
@@ -225,7 +233,7 @@ jno2.extend( {
 				(phdl[ phdl.length ] = hdl,
 				phdl.length++);
 			}
-
+			b=0;
 		return 1;
 		});
 	return phdl;
@@ -315,11 +323,11 @@ return {
 	},
 	__:function( callback, ptr, dom ){
 	return function( ){
-	var argv;
+	var argv; 
 	( argv = (new Array( arguments.length ) )).push( dom );
 	return callback.apply(
 		ptr,
-		merge( merge( [], arguments ), argv )
+		arguments
 		);
 	};
 	},	
@@ -431,7 +439,7 @@ jno2.extend( jno2.node.prototype,
 		});
 	},
 	//
-	iClass:function( a ){
+	isClass:function( a ){
 	return jno2.isClass( 
 		this[ this.i ],
 		a
@@ -552,11 +560,22 @@ jno2.extend( jno2.node.prototype,
 /*text*/
 jno2.extend( jno2.node.prototype,
 {
-	content:function( ){
-
-	},
+	content:function( a,b,c ){
+		var ctmp = ( this[ this.i ].value  ?  
+		 this[ this.i ].value : 
+		 this[ this.i ].innerHTML 
+		), b = b || 0, v = "";
+		
+		if( a != undefined ){
+			v = a instanceof jno2.node ? a.val( ) : typeof a == "string" ? a : "";
+			
+			this[ this.i ][ (this[ this.i ].value ? "value" : "innerHTML") ] = ( b ? ctmp+v : v );
+		return this;
+		}
+	return ctmp;
+	},	
 	val:function( a, b, c ){
-
+	return this.content( a, b, c );
 	},
 	valInt:function( a ){
 	return this.val( a, 0, "Int");
@@ -617,10 +636,11 @@ jno2.extend( jno2.node.prototype,
 		/*an object jno2*/
 	return a instanceof jno2.node ?
 		(jno2.each( a ,function( hdl ){
-			slf.each(function( _h ){
+			slf.each(function( _h, i  ){
+				if( jno2.isDOM( _h ) )
 				_h.appendChild( 
 					hdl
-				);
+				);;
 			return 1;
 			});
 		return 1;
@@ -640,7 +660,7 @@ jno2.extend( jno2.node.prototype,
 	},
 	/*work with domHanler.children method*/
 	get:function( k ){
-	return this[ this.i ].children ?
+	return this[ this.i ].children.length > 0 ?
 	       jno2( this[ this.i ].children[ ( k || (this.c = this.c >= 0 && this.c < this[ this.i ].children ? this.c : 0 ) ) ] ) :
 	       null
 	},
@@ -661,15 +681,19 @@ jno2.extend( jno2.node.prototype,
 
 	},
 	any:function( slctr, callback ){
-		var slf = this;	
-		jno2.each( jno2( slctr ), function( hdl, i ){
+		var slf = this;
+
+		jno2.sort( {length:0},  jno2.parseSelector( slctr ), function( hdl, i ){
+			callback.call( jno2( hdl ), hdl, i );
+		}, this[ this.i ] );
+		/*jno2.each( jno2( slctr ), function( hdl, i ){
 			callback.call( 
 				jno2( slf ),
 				hdl,
 				i
 			);
 		return 1;
-		});
+		});*/
 	return this;
 	},
 });
@@ -723,7 +747,7 @@ jno2.extend( jno2.node.prototype,
 		}
 	return {
 		width : this[ this.i ].offsetWidth, height: this[ this.i ].offsetHeight,
-		top:  this[ this.i ].offseTop, leff:  this[ this.i ].offset.left
+		top:  this[ this.i ].offseTop, leff:  this[ this.i ].offsetLeft
 		};
 	},
 	// since jno2
@@ -813,7 +837,7 @@ jno2.node.prototype.base =jno2.base = slf.base = (function( ){
 				);				
 			}	
 			t = ret.split("").reverse().join("");
-		}catch(e){};
+		}catch(e){ console.log( e ); };
 	return t;
 	}
 return{
@@ -833,11 +857,15 @@ return{
 		return r+( d < 10 ? d : al[ d-10 ] );
 		});	
 	},
-
+	ibase:function( a, b, c){
+	return __( a, b, typeof c === "function" ? c : function( r,d ){
+		return r+""+d;
+	});
+	},
 	/*
 	* sizeof == 1,2,4,8
 	*/
-	around:function( t, sizeof ){
+	round:function( t, sizeof ){
 	return Math.abs( Math.pow( 2, sizeof || 1 )-t.length ) !== 0 ? 
 	  String.prototype.repeat( "0", Math.abs( Math.pow( 2, sizeof || 1 )-t.length ) )+t : t
 	},
@@ -855,7 +883,7 @@ return{
 			a
 		);;
 
-	return this.around( 
+	return this.round( 
 		t, sizeof
 	);	
 	},
@@ -867,7 +895,71 @@ return{
 	};
 })( );
 /**/
+function __gtype( a, b ){
+return typeof a === "number" ? "number" :
+	typeof a === "string" && /^([\dabcef]{1,2})*$/.test( a ) ?
+	"hex" : "string";
+}
+jno2.vscanf = function( ){
+	var argv = [],
+	    value="",r= "",
+	    tmp,j=0;
+
+	jno2.each( arguments, function( val, i ){
+		
+		i === 0 ?
+		value = val :
+		argv.push( val );
+
+	return 1;
+	});	
+	
+	try{
+		while( ( tmp = /(\%{1}(i|h|d|c|o|b|x(\d{1,2})))/.exec( value ) ) ){
+	
+			// i,d => int, str, hex **
+			// h,x => int, str, hex *
+			// c   =>  int, str, hex**
+			// o   => int, hex, str *
+			// b   => nt, str, 	*
+			r = "";
+			if( __gtype( argv[ j ] ) == "string" ){
+				
+				jno2.each( argv[ j ],function( v ){
+					r += tmp[2] == "i" || tmp[2] == "d" ?
+					v.charCodeAt( 0 ) :
+					tmp[2] == "c" ? v :
+					jno2.base[( tmp[2] == "h" || tmp[2] == "x02" ? "dec2hex":tmp[2] == "o" ? "dec2oct" : "dec2bin" ) ]( 
+						v.charCodeAt( 0 ) 
+					);
+				return 1;
+				}); 
+			}else if( __gtype( argv[ j ] ) == "number" ){
+				r = tmp[2] == "i" || tmp[2] == "d" ?
+				argv[ j ] :
+				tmp[2] == "c" ? String.fromCharCode(argv[ j ]) :
+				jno2.base[( tmp[2] == "h" || tmp[2] == "x02" ? "dec2hex":tmp[2] == "o" ? "dec2oct" : "dec2bin" ) ]( 
+					argv[ j ] 
+				);
+
+			}
+			
+			
+			value = value.replace(
+				tmp[1],
+				( r || "" )
+			);
+			j++;
+		}
+	
+	}catch(e){console.log( e );};	
+	
+return value;
+};
 
 slf.jno2 = jno2;
 
 })( self || window );
+
+
+function str_format( ){}
