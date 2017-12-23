@@ -143,6 +143,13 @@ jno2.base.dec2bin(15); // "1111"
 jno2.base.dec2hex(57005); // "DEAD"
 ```
 ### jon2.base.dec2hext( uint x, int sizeof( byte | word | dword | qword ))
+
+| Type     | Value ( sizeof ) | Bits |
+| ------------- |:-------------|:-------------|
+| BYTE          | 1            |  8   |
+| WORD          | 2            |  16  |
+| DWORD         | 4            |  32  |
+| QWORD         | 8            |  64  |
 ```javascript
 jno2.base.dec2hext( -128, ( 1 || 2 || 4 || 8 ) ); // "80"
 ```
