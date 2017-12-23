@@ -142,18 +142,18 @@ jno2.base.dec2bin(15); // "1111"
 ```javascript
 jno2.base.dec2hex(57005); // "DEAD"
 ```
-### jon2.base.dec2hext( uint x, int sizeof( byte | word | dword | qword ))
+### jon2.base.dec2hext( uint x, int sizeof )
 
-| Type     | Value ( sizeof ) | Bits |
-| ------------- |:-------------|:-------------|
-| BYTE          | 1            |  8   |
-| WORD          | 2            |  16  |
-| DWORD         | 4            |  32  |
-| QWORD         | 8            |  64  |
+| Type     | Value ( sizeof ) | Bits |  Output  |
+| ------------- |:-------------|:-------------|:-------------|
+| BYTE          | 1  *default*            |  8   |  0x00  |
+| WORD          | 2            |  16  | 0x0000  |
+| DWORD         | 4            |  32  |  0x00000000 |
+| QWORD         | 8            |  64  | 0x0000000000000000  |
 ```javascript
 jno2.base.dec2hext( -128, ( 1 || 2 || 4 || 8 ) ); // "80"
 ```
-### jon2.base.arround( str r, int sizeof( byte | word | dword | qword ) )
+### jon2.base.arround( str r, int sizeof )
 ```javascript
 jno2.base.arround("f", 2 ); // "000f"
 ```
