@@ -79,7 +79,7 @@ var node = jno2("div");
   node.end( ); // .c
 ```
 
-## :two: Attributes
+## :two: DOM Attributes
 
 ### .rmClass( *String* className )
 remove a class of one elements DOM this function will return current object jno2
