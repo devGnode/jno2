@@ -161,7 +161,17 @@ jno2.base.dec2bin(128); // "200"
 ```javascript
 jno2.base.dec2hext( -128, ( 1 || 2 || 4 || 8 ) ); // "80"
 ```
-### jon2.base.arround( str r, int sizeof )
+### jon2.base.round( str r, int sizeof )
+
+This function allow to round a hexadecimal string like this : 
+
+| Type     | Value |  Output  |
+| ------------- |:-------------|:-------------|
+| BYTE          | 255 | 0xFF  |
+| WORD          | 255            |   0x00FF  |
+| DWORD         | 255            |  0x000000FF |
+| QWORD         | 255            |   0x00000000000000FF  |
+
 ```javascript
 jno2.base.arround("f", 2 ); // "000f"
 ```
