@@ -286,8 +286,44 @@ jno2( selector ).on( "keydown[13,97,98]", function(  domElements, keyCode, targe
    }
 });
 ```
+## :four: Size
 
-## :four: jno2.base or jno2( selector ).base 
+### .width( void || *String* wsize || *int* wisze )
+```javascript
+jno2( selector ).width( ); // get
+jno2( selector ).width("150px"); // put
+jno2( selector ).width(160); // put default in px
+```
+### .height( void || *String* wsize || *int* wisze )
+```javascript
+jno2( selector ).height( ); // get
+jno2( selector ).height("150px"); // put
+jno2( selector ).height(160); // put default in px
+```
+### .top( void || *String* wsize || *int* wisze )
+```javascript
+jno2( selector ).topt( ); // get
+jno2( selector ).top("150px"); // put
+jno2( selector ).top(160); // put default in px
+```
+### .left( void || *String* wsize || *int* wisze )
+```javascript
+jno2( selector ).left( ); // get
+jno2( selector ).left("150px"); // put
+jno2( selector ).left(160); // put default in px
+```
+### .offset( void || *String* size "width"|"height"|"top"|"left" )
+```javascript
+jno2( selector ).offsett( ); // {
+//  top
+//  left
+//  width
+//  left
+// }
+;jno2( selector ).offset("top"); // get
+```
+
+## :five: jno2.base or jno2( selector ).base 
 ### jon2.base.dec2bin( uint x )
 ```javascript
 jno2.base.dec2bin(15); // "1111"
