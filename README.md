@@ -12,7 +12,7 @@ var node = jno2( selector );
 | #      | id  |
 | .      | class name     | 
 | tag name div| tag name     |
-| Dom Handle | An DOM object |
+| Handle DOM | An object DOM |
 | "\<div\>" | new DOM elements |
 | tagName .,#,[attib='value'] | options tag name |
 | .,#,tagName > 1 | exclure bigger than x, default ( * ) all |
@@ -22,7 +22,7 @@ var node = jno2( selector );
 | Example      | Comment |
 | ------------- |:-------------:|
 | jno2("input[ype='text'] < 2") | take the elements smaller than 2 |
-| jno2("input[ype='text'] > 2") | take the elements bigger than 2 |
+| jno2("din.foo > 2") | take the elements bigger than 2 |
 | jno2(".foo : 2") | take element who's equal to 2 |
 ## Attributes
 
@@ -32,7 +32,7 @@ Length of object
 
 ### .i
 
-Offset of current target node
+Offset of target node selected
 
 ## Methods
 
@@ -57,11 +57,11 @@ return last element getting
 ```
 ### .each( *Handle* callbak )
 
-return last element getting
+Traverses each element who were obtained previously.
 ```javascript
   node.each( function( hdl, i ){
     // this === node
-    
+    console.log( hdl );
   });
 ```
 **example**:
@@ -82,7 +82,7 @@ var node = jno2("div");
 ## :two: DOM Attributes
 
 ### .rmClass( *String* className )
-remove a class of one elements DOM this function will return current object jno2
+Remove a class of one elements DOM this function will return current object jno2
 ```javascript
 var node = jno2( selector );
   node.rmClass("foo")
@@ -140,7 +140,7 @@ jno2( selector ).made( {
 jno2( selector ).made( "fontSize", "15px" );
 ```
 
-### .data( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue || *String* dataGetValue ] )
+### .data( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue ] )
 
 Modifiy dataset value(s).
 ```javascript
