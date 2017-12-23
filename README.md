@@ -24,6 +24,14 @@ var node = jno2( selector );
 | jno2("input[ype='text'] > 2") | take the elements bigger than 2 |
 | jno2(".foo : 2") | take element who's equal to 2 |
 
+### .length
+
+Length of obet 
+
+### .i
+
+Current target node
+
 ### .rmClass( *String* className )
 remove a class of one elements DOM this function will return current object jno2
 ```javascript
