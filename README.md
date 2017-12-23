@@ -31,6 +31,15 @@ Length of obet
 ### .i
 
 Current target node
+### .eq( void || *int* node )
+
+```javascript
+  node.eq( 0 );
+  node.eq( ); // current taget node
+```
+
+### .rmClass( *String* className )
+### .rmClass( *String* className )
 
 ### .rmClass( *String* className )
 remove a class of one elements DOM this function will return current object jno2
