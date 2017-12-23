@@ -139,15 +139,11 @@ jno2( selector ).on( "keydown[13,97,98]", function(  domElements, keyCode, targe
 jno2.base.dec2bin(15); // "1111"
 ```
 ### jon2.base.dec2hex( uint x )
-```javascript
-jno2.base.dec2hex(57005); // "DEAD"
-```
-### jon2.base.hex2dec( String hex )
 
 First argument accept only poisitive numbers type uint, if your digit is negative so used .dec2hext function below, who accept negative digits but by this way you hould indication the size of this one.
 
 ```javascript
-jno2.base.dec2bin(128); // "200"
+jno2.base.dec2hex(57005); // "DEAD"
 ```
 
 ### jon2.base.dec2hext( uint x, int sizeof )
@@ -175,6 +171,12 @@ This function allow to round a hexadecimal string like this :
 ```javascript
 jno2.base.arround("f", 2 ); // "000f"
 ```
+### jon2.base.hex2dec( String hex )
+
+```javascript
+jno2.base.hex2dec( "ff" ); // "255"
+```
+
 ### jon2.base.dec2oct( uint x )
 ```javascript
 jno2.base.dec2oct(15); // "1111"
