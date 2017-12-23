@@ -150,12 +150,13 @@ jno2.base.dec2hex(57005); // "DEAD"
 
 | Type     | Value ( sizeof ) | Bits |  Output  |
 | ------------- |:-------------|:-------------|:-------------|
-| BYTE          | 1  *default*            |  8   |  0x00  |
+| BYTE          | *default* 1           |  8   |  0x00  |
 | WORD          | 2            |  16  | 0x0000  |
 | DWORD         | 4            |  32  |  0x00000000 |
 | QWORD         | 8            |  64  | 0x0000000000000000  |
+
 ```javascript
-jno2.base.dec2hext( -128, ( 1 || 2 || 4 || 8 ) ); // "80"
+jno2.base.dec2hext( -128, 2 ); // "80"
 ```
 ### jon2.base.round( str r, int sizeof )
 
@@ -186,7 +187,7 @@ jno2.base.dec2oct(15); // "1111"
 
 Like printf in c,c++ language, more or less.
 
-| Type     | Value  | accepted |
+| Type     | Output  | argv |
 | ------------- |:-------------|:-------------|
 | %i         | Integer           |  Integer, string, strHexValue  |
 | %c          | Character |  Integer, String, strHexValue  |
