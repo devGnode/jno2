@@ -26,7 +26,7 @@ var node = jno2( selector );
 
 ### .length
 
-Length of obet 
+Length of object 
 
 ### .i
 
@@ -50,6 +50,22 @@ return last element getting
 ```javascript
   node.end( );
 ```
+
+example:
+
+```html
+<div class="a"></div>
+<div class="b"></div>
+<div class="c"></div>
+```
+
+```javascript
+var node = jno2("div");
+  node.eq( 1 ); // .b
+  node.start( ); // .a
+  node.end( ); // .c
+```
+
 ## :one:.:two: Attributes
 
 ### .rmClass( *String* className )
