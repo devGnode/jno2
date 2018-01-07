@@ -19,7 +19,7 @@
 
 var jno2 = function( s ){
 return new jno2.node( s );
-}, siz = /((\x20){0,}\<(\x20){0,}(\d+)|(\x20){0,}\>(\x20){0,}(\d+)|(\x20){0,}\:(\x20){0,}(\d+))/,
+}, siz = /((\s|)\<(\s|)(\d+)|(\s|)\>(\s|)(\d+)|(\s|)\:(\s|)(\d+))/,
    slt = /^(\.|\#)([\d\w\_]+)$/,
    attr= /([\w\d]+)\=(\'|\")(.+?)(\'\")/,
    tag = /^([\w\d_]+)(\.([\w\d\_]+)|\#([\w\d\_]+)|\[([\w\d\_]+)\=\'([\w\d\_]+)\'\]|)$/,
@@ -159,29 +159,33 @@ jno2.extend( {
 		var tmp,i;
 		try{
 		
+		if( !hdl )
+		return hdl;;
+
 		if( jno2.isDOM( hdl ) ){		
 		cllbck.call( 
 			( ptr || hdl ),
 			 hdl,
 			 0
 		 );return hdl}
-
 		if( hdl.length != undefined ){
 			for( i=0; i < hdl.length; i++ ){
+				if(hdl[ i ] != undefined)
 				if( !cllbck.call( 
 					( ptr || hdl ),
 					hdl[ i ],
 					i 
-				) ) break;;
+				) ) break;;;
 			}
 			//hdl.length += 
 		}else
 		for( tmp in hdl ){
+			if( hdl[ tmp ] != undefined )
 			if( !cllbck.call( 
 				( ptr || hdl ),
 				hdl[ tmp ],
 				tmp 
-			) ) break;;
+			) ) break;;;
 		};;
 
  		}catch(e){ console.log(e); };
@@ -212,11 +216,12 @@ jno2.extend( {
 	},
 	sort:function( phdl, opts, callback, domHandler  ){
 		var tmp, b, j = 0;
-		
+
 		opts = jno2.extend( { less:0, more:0, one:0, opts:0 }, opts );
 		jno2.each( ( this.isArray( domHandler ) && !jno2.isDOM( domHandler ) ? domHandler : jno2._gt( opts.calls, opts.name, domHandler ) ), function( hdl, i ){
 			
 			if( opts.opts.enbld && hdl[ opts.opts.calls === "." ? 'className' : 'id' ].split(' ').indexOf( opts.opts.name ) > -1 ||
+			    hdl[ opts.calls === "." ? 'className' : 'id' ].split(' ').indexOf( opts.name ) > -1 ||
 			    opts.opts.enbld && opts.opts.calls == "attr" && hdl[ opts.opts.name ] === opts.opts.value )
 			i-=j,b = true;
 			else if( opts.opts.enbld ) j++;;
@@ -226,14 +231,14 @@ jno2.extend( {
 			1 && 1 || 1 = 1
 			0 && 1 || 0 = 0
 			0 && 0 || 0 = 0*/
-			if( ( (tmp = ( opts.more && i >= opts.more ) || ( opts.less && i < opts.less ) ||  ( opts.one  && i == opts.one ) ||  ( !opts.one && !opts.more && !opts.less ) ) && b ) || ( tmp && !opts.opts.enbld ) ){
-				
+			if( ( (tmp = ( opts.more && i >= opts.more ) || ( opts.less && i < opts.less ) ||  ( opts.one  && i == opts.one ) ||  ( !opts.one && !opts.more && !opts.less ) ) && b ) || ( tmp && !opts.opts.enbld && !opts.calls ) ){
+
 				typeof callback === "function" ?
 				callback.call( phdl, hdl, i ) : 
 				(phdl[ phdl.length ] = hdl,
 				phdl.length++);
 			}
-			b=0;
+			b=!1;
 		return 1;
 		});
 	return phdl;
@@ -245,6 +250,7 @@ jno2.extend( {
 		this.each( hdl.children, function( phdl ){
 			
 			if( phdl.children && phdl.children.length > 0 ) { 
+				( cvoid || tmp ).push( phdl );
 				jno2.traversing(
 					phdl,
 					opts,
@@ -265,7 +271,7 @@ jno2.extend( {
 	return this.sort( 
 			{ length:0 },
 			opts,
-			undefined, hdl 
+			undefined, opts.calls === "#" ? jno2.traversing( hdl ) : hdl 
 		);	
 	},
 	content:function( a, b, c ){
@@ -391,8 +397,17 @@ jno2.node = function( s ){
 		}, s );
 	// create new Element DOM
 	}else if( (tmp=/^\<([\d\w]+)(.+|)\>$/.exec(s) ) ){
+		var atr = {};
+
 		this[this.length] = jno2.DOM( tmp[1] );	
 		this.length++;
+		jno2.regexp( (/(\w+)\=('|")((?:[^"\\\']|\\.)*)("|')/), tmp[2],function( jhdl ){
+			
+			atr[ this[1] == "class" ? "className" : this[1] ] = this[3];
+			
+		return "";
+		}, this[this.length] ); 
+		this.made( atr );
 	/* text selctor*/
 	}else{
 		jno2.sort(
@@ -408,12 +423,19 @@ return this;
 
 jno2.extend( jno2.node.prototype,
 {
+	dec:function( ){
+	},
+	inc:function( ){
+	
+	},
 	eq:function(  a ){
+	var i;
 		a ?
 		this.i += a > 0 && a < this.length ? -(this.i-a) : this.i+1 > 0 && this.i+1 < this.length ?   1 : -(this.length-1) 
 		: void 0;
+		console.log( " this.i "+ this.i + " /// "+ a );
 	// current target		
-	return jno2( this[ this.i ] );
+	return jno2( this[ a ] );
 	},
 	start:function(){
 	return jno2( this[ this.i = 0 ] );
@@ -532,8 +554,8 @@ jno2.extend( jno2.node.prototype,
 	// a
 	// , type
 	data:function( a, b, c ){
-	
-		if( ( jno2.isArray( a ) & !b ) || ( a && b ) )
+	console.log( arguments );
+		if( ( jno2.isArray( a ) & b == undefined ) || ( a && b != undefined ) )
 		return this.each(function( hdl ){
 				jno2.made( 
 					hdl.dataset, 
@@ -546,6 +568,7 @@ jno2.extend( jno2.node.prototype,
 		return c ? window[ "parse"+c.upper(1) ] ( this[ 0 ].dataset[ a ] ) :
 			   this[ this.i ].dataset[ a ];
 		}
+	return this;
 	},
 	dataInt:function( a, b ){
 	return this.data( a, b, 'int' );
@@ -561,7 +584,7 @@ jno2.extend( jno2.node.prototype,
 jno2.extend( jno2.node.prototype,
 {
 	content:function( a,b,c ){
-		var ctmp = ( this[ this.i ].value  ?  
+		var ctmp = ( this[ this.i ].value != undefined ?  
 		 this[ this.i ].value : 
 		 this[ this.i ].innerHTML 
 		), b = b || 0, v = "";
@@ -602,7 +625,8 @@ jno2.extend( jno2.node.prototype,
 			jno2._rm( 	
 				hdl.parentNode,
 				hdl
-			);;	
+			);;
+		return 1;	
 		});
 	return void 0;
 	},
@@ -610,17 +634,6 @@ jno2.extend( jno2.node.prototype,
 	return jno2( 
 		jno2.child( this[ this.i ], jno2.parseSelector( a ) ) 
 		);
-	},
-	t:function( ){
-		var t;
-		console.log( t=jno2.traversing( this[ this.i ], jno2.parseSelector( "#tt" ) ) );
-		
-		console.log( jno2.sort(
-			{length:0},
-			jno2.parseSelector( "#foo" ),
-		undefined,
-		t
-		) );
 	},
 	clone:function( ){
 		if( !this[ this.i ].cloneNode ){
@@ -681,9 +694,19 @@ jno2.extend( jno2.node.prototype,
 
 	},
 	any:function( slctr, callback ){
+		var slf = this;
+
 		jno2.sort( {length:0},  jno2.parseSelector( slctr ), function( hdl, i ){
 			callback.call( jno2( hdl ), hdl, i );
 		}, this[ this.i ] );
+		/*jno2.each( jno2( slctr ), function( hdl, i ){
+			callback.call( 
+				jno2( slf ),
+				hdl,
+				i
+			);
+		return 1;
+		});*/
 	return this;
 	},
 });
@@ -798,6 +821,46 @@ jno2.extend( jno2.node.prototype,
 		return 1;
 		});
 	},
+
+	click:function( ){
+		
+	},
+
+	checked:function( ){
+	return arguments.length == 0 && this[ this.i ].checked != undefined ?
+	      	this[ this.i ].checked : arguments.length == 1 ?
+		(this[ this.i ].checked = arguments[0],this) : this;
+	},
+	focus:function( ){
+		this[ this.i ].focus( );
+	return this;
+	},
+
+	exec:function( __shell__ ){
+		
+		var t = { x:"left",y:"top",h:"height",w:"width"};
+		
+		///\$\(?(.+)?\)/.exec("$(ATTR -w $( ATTR -c 14 ) )")
+		//\.\(?(.+)?\)\s(\w{1})/.exec(".(mdr) l")
+		var argv = [];
+		jno2.regexp( /(\-|\+)(\w){1,}(\x20){1,}((\'([^\']+)\')|\w+|)/, __shell__, function( p ){
+			
+			if( this[2] == "c" ){
+				p[ ( this[1] == "-" ? "rmClass" : "Class" ) ]( 	(this[6] ? this[6] : this[4] ) );
+			}
+			if( "x,y,w,h".split(",").indexOf( this[2] ) ){
+	console.log( p[ t[ this[2] ] ]() );
+				p[ t[ this[2] ] ]( parseInt( this[4] )+( this[1] == "-" ? -p[ t[ this[2] ] ]() : +p[ t[ this[2] ] ]() ) );
+			}
+			argv.push({
+				s:( this[1] == "-" ? 0 : 1 ),
+				a:this[2],
+				v:(this[6] ? this[6] : this[4] )
+			});
+		return "";
+		},this);
+		console.log( argv );
+	},
 });
 
 /* extend but can be removed */
@@ -864,10 +927,10 @@ return{
 		
 		sizeof = sizeof === 4 ? 3 : sizeof === 8 ? 4 : sizeof;
 		if( a < 0 ){
-			t = this.around( this.dec2hex( ( ( a >> 24 )&0xff ) ), 1 ) + ""+
-			    this.around( this.dec2hex( ( ( a >> 16 )&0xff ) ), 1 ) + ""+
-			    this.around( this.dec2hex(  ( a >> 8  )&0xff ), 1 ) + ""+
-			    this.around( this.dec2hex(  ( a&0xff )  ), 1 );
+			t = this.round( this.dec2hex( ( ( a >> 24 )&0xff ) ), 1 ) + ""+
+			    this.round( this.dec2hex( ( ( a >> 16 )&0xff ) ), 1 ) + ""+
+			    this.round( this.dec2hex(  ( a >> 8  )&0xff ), 1 ) + ""+
+			    this.round( this.dec2hex(  ( a&0xff )  ), 1 );
 		}else
 		t = this.dec2hex( 
 			a
@@ -944,6 +1007,23 @@ jno2.vscanf = function( ){
 	
 	}catch(e){console.log( e );};	
 	
+return value;
+};
+
+jno2.regexp = function( reg, value, callback, hptr ){
+	var i = 1;
+	try{
+		while( ( tmp = reg.exec( value ) )  && i < 1000 ){
+			value = value.replace( 
+				tmp[0],
+				typeof callback == 'function' ? 
+				callback.call( tmp, hptr || null ) : "" 				
+			);
+		i++;		
+		}
+	}catch(e){
+	console.log(e);
+	};
 return value;
 };
 
