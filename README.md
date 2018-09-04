@@ -101,8 +101,6 @@ Add a class to an element DOM
 ```javascript
 
 jno2( selector ).addClass( "foo" );
-  
-```
 
 ### .Class( *String* className )
 link to addClass
@@ -110,6 +108,14 @@ link to addClass
 jno2( selector ).Class( "foo" );
 ```
 
+### .toggleClass( *String* classNameA, *String* classNameB )
+If A exists then remove it and add B
+
+```javascript
+
+jno2( selector ).addClass( "foo", "bar" );
+  
+```
 ### .id( [ void ||   *String* id ] )
 Add an id to an element, or getting this value.
 ```javascript
@@ -152,18 +158,47 @@ jno2( selector ).data( {
 jno2( selector ).data( "bar", 150 );
 jno2( selector ).data( "bar" ); // == 150
 ```
-### .dataInt( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue ] )
+### .dataInt(  *String* dataName [ , *String* dataValue ]    )
 ```javascript
  
 ( typeof jno2( selector ).dataInt( "bar ) === "number");
 ```
 
-### .dataFloat( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue ] )
+### .dataFloat( *String* dataName [ , *String* dataValue ]  )
 ```javascript
 jno2( selector ).dataFloat( "bar", 1.25 )
-jno2( selector ).dataFloat( "bar"); // 1.25
+jno2( selector ).dataFloat( "bar"); // float 1.25
 ```
-### .attr( [ *JSON* attibuts || *String* attribName, *String* attribValue || *String* value ] )
+### .dataBool(  *String* dataName [ , *String* dataValue ]  )
+```javascript
+jno2( selector ).dataFloat( "bar", 1 )
+jno2( selector ).dataFloat( "bar"); // Bool true 
+```
+### .html(  *String* HTMLValue  )
+InnerHTML - use for Select tag
+```javascript
+jno2( selector ).html( "<b>foo</b>" )
+```
+### .outer(  void  )
+outerHTML - use for Select tag
+```javascript
+jno2( selector ).outer(  ) // <b>foo</b>
+```
+### .val(  *String* dataName [ , *Bool* add ]  )
+outerHTML - use for Select tag
+```javascript
+jno2( selector ).val(  ) // foo
+jno2( selector ).val( "bar", 1 ) // foobar
+jno2( selector ).val( "bar" ) // bar
+```
+### .valInt(  *int* inputInt )
+outerHTML - use for Select tag
+```javascript
+jno2( selector ).valInt(  ) // 12
+jno2( selector ).valInt( 12 ); 
+```
+
+### .attrib( [ *JSON* attibuts || *String* attribName, *String* attribValue || *String* value ] )
 Modifiy the attributes of an object.
 ```javascript
 
@@ -184,6 +219,23 @@ Delete node
 jno2( selector ).del( );
 
 ```
+
+### .empty( void )
+Delete all node
+```javascript
+
+jno2( selector ).empty( );
+
+```
+
+### .dom( int Elementno )
+Delete node
+```javascript
+
+jno2( selector ).dom( 0 ); // HTMLDOMElement
+
+```
+
 ### .child( *String* selector )
 Try to resolve a child(s) in order to return it.
 ```javascript
@@ -199,7 +251,7 @@ jno2( selector ).clone( );
 
 ```
 
-### .app(  *Object* jno2 || *Object* DOMElement )
+### .app(  [ *Object* jno2 || *Object* DOMElement,,,, ] )
 Add a child node into the current node.
 ```javascript
 
@@ -214,6 +266,15 @@ jno2( selector ).app( DOM );
 jno2( selector ).getParent( );
 
 ```
+
+### .parent(  void )
+pointer getParent
+```javascript
+
+jno2( selector ).parent( );
+
+```
+
 ### .get(  void || *int* element )
 
 These function get, prev, next and first who're represented below : allow to browse children elements quickly of his parent,but not in deeply, for browse it in depply use **.child** or **.any** function. 
@@ -324,6 +385,12 @@ jno2( selector ).offsett( ); // {
 ```
 
 ## :five: jno2.base or jno2( selector ).base 
+
+### jon2.formdata( *JSON* Elements )
+```javascript
+jno2.base.formdata({ elemnt1:foo, file: *Object* File, });
+```
+
 ### jon2.base.dec2bin( uint x )
 ```javascript
 jno2.base.dec2bin(15); // "1111"
@@ -385,6 +452,34 @@ Look like printf in c,c++ language, more or less.
 | %b    | Binary            |  Interger, String  |
 | %o   | Octal            |  Integer, String  |
 
+### jno2.regexp( *Object* RegExp, *String* Value, *Function* Callback, *Object* Ptr )
+```javascript
+var out = jno2.regexp( /[0-9]/, "Hell0 W0rld !",function( ){
+
+    this == Array finder
+    
+   return "OK";
+});
+
+console.log( out ); // HellOK WOKrld !
+
+var out = jno2.regexp( /[0-9]/, "Hell0 W0rld !",function( find ){
+
+    this == ptr
+    
+   return "OK";
+}, ptr );
+
+console.log( out ); // HellOK WOKrld !
+
+```
+
+### jno2.free( obj )
+```javascript
+
+jno2.free({ foo:"bar", test:01 }) // {}
+
+```
 
 ## String.prototype extend
 
@@ -412,5 +507,12 @@ Look like printf in c,c++ language, more or less.
 
 "ÿÿ".ctoHex( ); // "ffff"
 "ÿÿ".ctoHex( ).upper( ); // "FFFF"
+
+```
+
+### String.prototype.reg( *Object* RegExp )
+pointer parse.exec( )
+```javascript
+"Hello Worl !".reg( /\w+/ )
 
 ```
