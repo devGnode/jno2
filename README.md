@@ -547,9 +547,9 @@ opts = {
   type: String Mimes-Type "text/plain" by default,
   charset: string charset UTF-8 by default,
   
-  hex: bool,
-  b64: bool,
-  bin: bool, // application/octect-stream
+  b64: bool, // decode base64
+  hex: bool, // decode hex
+  bin: bool, // output binary data...
 
 };
 
@@ -569,9 +569,9 @@ opts = {
   type: String Mimes-Type "text/plain" by default,
   charset: string charset UTF-8 by default,
   
-  hex: bool,
-  b64: bool,
-  bin: bool, // application/octect-stream
+  b64: bool, // decode base64
+  hex: bool, // decode hex
+  bin: bool, // output binary data...
 
 };
 
