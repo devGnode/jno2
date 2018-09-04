@@ -197,6 +197,24 @@ outerHTML - use for Select tag
 jno2( selector ).valInt(  ) // 12
 jno2( selector ).valInt( 12 ); 
 ```
+### .valText(  *string* input [ , *Bool* Add ] )
+see native HTML.textContent
+
+### .len(  void  )
+return string length.
+```javascript
+// "Hello"
+jno2( selector ).len(  ) // 4
+```
+### .bind(  *String* NameHandler [, *String* argv,,,, ]   )
+return string length.
+```javascript
+
+jno2( selector ).bind("onclick", "foo", "bar" );
+
+// this == jno2 Object
+
+```
 
 ### .attrib( [ *JSON* attibuts || *String* attribName, *String* attribValue || *String* value ] )
 Modifiy the attributes of an object.
@@ -237,7 +255,7 @@ jno2( selector ).dom( 0 ); // HTMLDOMElement
 ```
 
 ### .child( *String* selector )
-Try to resolve a child(s) in order to return it.
+Try to resolve a child(s) in order to return it. Select all use "\*" selector
 ```javascript
 
 jno2( selector ).child("div < 5");
@@ -256,7 +274,7 @@ Add a child node into the current node.
 ```javascript
 
 jno2( selector ).app( jno2('div>') );
-jno2( selector ).app( DOM );
+jno2( selector ).app( DOM, jno2("div"), DOM,.... );
 
 ```
 
@@ -386,11 +404,6 @@ jno2( selector ).offsett( ); // {
 
 ## :five: jno2.base or jno2( selector ).base 
 
-### jon2.formdata( *JSON* Elements )
-```javascript
-jno2.base.formdata({ elemnt1:foo, file: *Object* File, });
-```
-
 ### jon2.base.dec2bin( uint x )
 ```javascript
 jno2.base.dec2bin(15); // "1111"
@@ -438,6 +451,14 @@ jno2.base.hex2dec( "ff" ); // "255"
 ### jon2.base.dec2oct( uint x )
 ```javascript
 jno2.base.dec2oct(15); // "1111"
+```
+
+## jno2 
+
+
+### jon2.formdata( *JSON* Elements )
+```javascript
+jno2.base.formdata({ elemnt1:foo, file: *Object* File, });
 ```
 
 ### jno2.vscanf
@@ -514,5 +535,48 @@ jno2.free({ foo:"bar", test:01 }) // {}
 pointer parse.exec( )
 ```javascript
 "Hello Worl !".reg( /\w+/ )
+
+```
+### String.prototype.toFile( *Object* opts )
+
+return new File Object
+
+```javascript
+opts = {
+  name: String Name,
+  type: String Mimes-Type "text/plain" by default,
+  charset: string charset UTF-8 by default,
+  
+  hex: bool,
+  b64: bool,
+  bin: bool, // application/octect-stream
+
+};
+
+( new String("SGVsbG8gV29ybGQgIQ==")).toFile({ name:"FilaName.ext", type:"text/plain", b64: true })
+( new String("ff000161626364")).toFile({ name:"FilaName.ext", type:"text/plain", hex: true })
+( new String("SGVdqGgzVCc==")).toFile({ name:"FilaName.ext", type:"text/plain", b64: true, hex: true })
+
+```
+
+### String.prototype.toDDL( *Object* opts )
+
+open a new window 
+
+```javascript
+opts = {
+  name: String Name,
+  type: String Mimes-Type "text/plain" by default,
+  charset: string charset UTF-8 by default,
+  
+  hex: bool,
+  b64: bool,
+  bin: bool, // application/octect-stream
+
+};
+
+( new String("SGVsbG8gV29ybGQgIQ==")).toFile({ name:"FilaName.ext", type:"text/plain", b64: true })
+( new String("ff000161626364")).toDDL({ name:"FilaName.ext", type:"application/octect-stream", hex: true, bin:true })
+( new String("SGVdqGgzVCc==")).toFile({ name:"FilaName.ext", type:"text/plain", b64: true, hex: true, bin:true })
 
 ```
