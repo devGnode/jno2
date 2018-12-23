@@ -55,6 +55,21 @@ return last element obtained
 ```javascript
   node.end( );
 ```
+
+### .add( *int* node ) <= 1.2
+
+```javascript
+  jno2("div").add( jno2("a") )
+  jno2("div").add( jno2("<a>") )
+  jno2("div").add( DOMElement )
+```
+
+### .drop( *int* node ) <= 1.2
+
+```javascript
+  jno2("div").drop( 5 )
+```
+
 ### .each( *Handle* callbak )
 
 Traverses each element who were obtained previously.
@@ -87,8 +102,14 @@ Remove a class of one elements DOM this function will return current object jno2
 var node = jno2( selector );
   node.rmClass("foo")
 ```
+### .classSwitch( *String* classFrom, *String* ClassTo )
+Remove a class of one elements DOM this function will return current object jno2
+```javascript
+var node = jno2( selector );
+  node.classSwitch("foo", "bar" );
+```
 
-### .isClass( *String* className )
+### .isClass( *String* className || RegExp value )
 Check if a class existing in an element DOM return **boolean**
 ```javascript
 var node = jno2( selector );
@@ -96,6 +117,16 @@ var node = jno2( selector );
     // existing
    }
 ```
+```javascript
+var node = jno2( selector ),
+   tmp;
+
+  if( node.isClass(/foo\-\d+/) ){
+    console.log( tmp ); ==> [foo-125,foo-256 ... ]
+    // existing
+   }
+```
+
 ### .addClass( *String* className )
 Add a class to an element DOM
 ```javascript
