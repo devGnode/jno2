@@ -524,6 +524,9 @@ jno2.extend( jno2.node.prototype,
             slf[ this.length ] = h;
             slf.length++;
         })
+        }else if(jno2.isDOM(o)){
+            this[slf.length] = o
+            slf.length++;
         }
         
     return this;
