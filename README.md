@@ -525,10 +525,23 @@ jno2.base.dec2oct(15); // "1111"
 ## jno2 
 
 
-### jon2.formdata( *JSON* Elements )
+### jon2.formdata( *JSON* Elements ) :formData
+
 ```javascript
 jno2.base.formdata({ elemnt1:foo, file: *Object* File, });
 ```
+
+### jon2.form( *JSON* Elements ) :jform
+
+```javascript
+jno2.base.formdata({ elemnt1:foo, file: *Object* File, });
+```
+## jform
+### Methods
+
+.get( *String* name ) :String
+.set( *String* name, *String* value ) :this
+.rm( *String* name ) :this
 
 ### jno2.vscanf
 
