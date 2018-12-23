@@ -415,6 +415,23 @@ jno2( selector ).on( "keydown[13,97,98]", function(  domElements, keyCode, targe
    }
 });
 ```
+## Animation
+
+### .anime( *JSON* opts [, *function* callback,.... ] ) :this
+```javascript
+  jno2("div:0").anime({ delay:1, margin:"10px", padding:"5%" }, funtion( ){
+      alert( "callback" );
+      this === jno2("div:0");
+  });
+```
+### .clearAnime( void ) :this
+
+Stop all animations
+
+```javascript
+  jno2("div:0").clearAnime();
+```
+
 ## :four: Size
 
 ### .width( void || *String* wsize || *int* wisze )
