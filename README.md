@@ -143,6 +143,7 @@ Add a class to an element DOM
 ```javascript
 
 jno2( selector ).addClass( "foo" );
+```
 
 ### .Class( *String* className )
 link to addClass
