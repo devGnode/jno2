@@ -56,7 +56,7 @@ return last element obtained
   node.end( );
 ```
 
-### .add( *int* node ) <= 1.2
+### .add( *Jno2Instnce* no2 | *DOMElements* dom ) <= 1.2
 
 ```javascript
   jno2("div").add( jno2("a") )
@@ -73,12 +73,23 @@ return last element obtained
 ### .each( *Handle* callbak )
 
 Traverses each element who were obtained previously.
+
 ```javascript
   node.each( function( hdl, i ){
     // this === node
     console.log( hdl );
   });
 ```
+return true, allow to break out of this function.
+
+```javascript
+  node.each( function( hdl, i ){
+  
+    if( hdl === phdl )
+    retur true;
+  });
+```
+
 **example**:
 
 ```html
@@ -96,20 +107,20 @@ var node = jno2("div");
 
 ## :two: DOM Attributes
 
-### .rmClass( *String* className )
+### .rmClass( *String* className ) :this
 Remove a class of one elements DOM this function will return current object jno2
 ```javascript
 var node = jno2( selector );
   node.rmClass("foo")
 ```
-### .classSwitch( *String* classFrom, *String* ClassTo )
+### .classSwitch( *String* classFrom, *String* ClassTo ) :this
 Remove a class of one elements DOM this function will return current object jno2
 ```javascript
 var node = jno2( selector );
   node.classSwitch("foo", "bar" );
 ```
 
-### .isClass( *String* className || RegExp value )
+### .isClass( *String* className || RegExp value ) :Boolean
 Check if a class existing in an element DOM return **boolean**
 ```javascript
 var node = jno2( selector );
@@ -127,7 +138,7 @@ var node = jno2( selector ),
    }
 ```
 
-### .addClass( *String* className )
+### .addClass( *String* className ) :this
 Add a class to an element DOM
 ```javascript
 
@@ -139,7 +150,7 @@ link to addClass
 jno2( selector ).Class( "foo" );
 ```
 
-### .toggleClass( *String* classNameA, *String* classNameB )
+### .toggleClass( *String* classNameA, *String* classNameB ) :this
 If A exists then remove it and add B
 
 ```javascript
@@ -147,7 +158,7 @@ If A exists then remove it and add B
 jno2( selector ).addClass( "foo", "bar" );
   
 ```
-### .id( [ void ||   *String* id ] )
+### .id( [ void ||   *String* id ] ) :String
 Add an id to an element, or getting this value.
 ```javascript
  //add
@@ -155,7 +166,7 @@ jno2( selector ).id( "foo" );
  //get
 jno2( selector ).id( );
 ```
-### .made( [ *JSON* attibuts || *String* attribName, *String* attribValue ] )
+### .made( [ *JSON* attibuts || *String* attribName, *String* attribValue ] ) :this
 Modifiy attribtes of an object.
 ```javascript
 
@@ -165,7 +176,7 @@ jno2( selector ).made( {
  
 jno2( selector ).made( "type", "text" );
 ```
-### .css( [ *JSON* attibuts || *String* cssRuleName, *String* cssRuleValue ] )
+### .css( [ *JSON* attibuts || *String* cssRuleName, *String* cssRuleValue ] ) :this
 
 Modifiy css rule(s)
 ```javascript
@@ -176,8 +187,16 @@ jno2( selector ).made( {
  
 jno2( selector ).made( "fontSize", "15px" );
 ```
+### .isShow( void ) : Bool
 
-### .data( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue ] )
+Modifiy css rule(s)
+```javascript
+
+if( jno2("div").isShow( ) );
+
+```
+
+### .data( [  *JSON* attibuts || *String* dataName, *String* dataValue || *String* dataGetValue ] ) :this | :String
 
 Modifiy dataset value(s).
 ```javascript
@@ -189,55 +208,55 @@ jno2( selector ).data( {
 jno2( selector ).data( "bar", 150 );
 jno2( selector ).data( "bar" ); // == 150
 ```
-### .dataInt(  *String* dataName [ , *String* dataValue ]    )
+### .dataInt(  *String* dataName [ , *String* dataValue ]    ) :Integer
 ```javascript
  
 ( typeof jno2( selector ).dataInt( "bar ) === "number");
 ```
 
-### .dataFloat( *String* dataName [ , *String* dataValue ]  )
+### .dataFloat( *String* dataName [ , *String* dataValue ]  ) :Float
 ```javascript
 jno2( selector ).dataFloat( "bar", 1.25 )
 jno2( selector ).dataFloat( "bar"); // float 1.25
 ```
-### .dataBool(  *String* dataName [ , *String* dataValue ]  )
+### .dataBool(  *String* dataName [ , *String* dataValue ]  ) :Boolean
 ```javascript
 jno2( selector ).dataFloat( "bar", 1 )
 jno2( selector ).dataFloat( "bar"); // Bool true 
 ```
-### .html(  *String* HTMLValue  )
+### .html(  *String* HTMLValue  ) :this | :String
 InnerHTML - use for Select tag
 ```javascript
 jno2( selector ).html( "<b>foo</b>" )
 ```
-### .outer(  void  )
+### .outer(  void  ) :String
 outerHTML - use for Select tag
 ```javascript
 jno2( selector ).outer(  ) // <b>foo</b>
 ```
-### .val(  *String* dataName [ , *Bool* add ]  )
+### .val(  *String* dataName [ , *Bool* add ]  ) :this | :String
 outerHTML - use for Select tag
 ```javascript
 jno2( selector ).val(  ) // foo
 jno2( selector ).val( "bar", 1 ) // foobar
 jno2( selector ).val( "bar" ) // bar
 ```
-### .valInt(  *int* inputInt )
+### .valInt(  *int* inputInt ) :Integer
 outerHTML - use for Select tag
 ```javascript
 jno2( selector ).valInt(  ) // 12
 jno2( selector ).valInt( 12 ); 
 ```
-### .valText(  *string* input [ , *Bool* Add ] )
+### .valText(  *string* input [ , *Bool* Add ] ) :String
 see native HTML.textContent
 
-### .len(  void  )
+### .len(  void  ) :Integer
 return string length.
 ```javascript
 // "Hello"
 jno2( selector ).len(  ) // 4
 ```
-### .bind(  *String* NameHandler [, *String* argv,,,, ]   )
+### .bind(  *String* NameHandler [, *String* argv,,,, ]   ) :this
 return string length.
 ```javascript
 
@@ -247,7 +266,7 @@ jno2( selector ).bind("onclick", "foo", "bar" );
 
 ```
 
-### .attrib( [ *JSON* attibuts || *String* attribName, *String* attribValue || *String* value ] )
+### .attrib( [ *JSON* attibuts || *String* attribName, *String* attribValue || *String* value ] ) :this | :String
 Modifiy the attributes of an object.
 ```javascript
 
@@ -261,7 +280,7 @@ jno2( selector ).attr( "type" ); // get value
 ```
 ## :three: Node methods
 
-### .del( void )
+### .del( void ) :void 
 Delete node
 ```javascript
 
@@ -269,7 +288,7 @@ jno2( selector ).del( );
 
 ```
 
-### .empty( void )
+### .empty( void ) :this
 Delete all node
 ```javascript
 
@@ -277,7 +296,7 @@ jno2( selector ).empty( );
 
 ```
 
-### .dom( int Elementno )
+### .dom( int Elementno ) :DOMElement
 Delete node
 ```javascript
 
@@ -285,14 +304,14 @@ jno2( selector ).dom( 0 ); // HTMLDOMElement
 
 ```
 
-### .child( *String* selector )
+### .child( *String* selector ) :jno2 instance
 Try to resolve a child(s) in order to return it. Select all use "\*" selector
 ```javascript
 
 jno2( selector ).child("div < 5");
 
 ```
-### .clone(  void )
+### .clone(  void ) :DOMElement !DEPREATED!
 Return a clone of current node.
 ```javascript
 
@@ -300,7 +319,7 @@ jno2( selector ).clone( );
 
 ```
 
-### .app(  [ *Object* jno2 || *Object* DOMElement,,,, ] )
+### .app(  [ *Object* jno2 || *Object* DOMElement,,,, ] ) :this
 Add a child node into the current node.
 ```javascript
 
@@ -309,14 +328,14 @@ jno2( selector ).app( DOM, jno2("div"), DOM,.... );
 
 ```
 
-### .getParent(  void )
+### .getParent(  void ) :jno2Instane DOMParent
 ```javascript
 
 jno2( selector ).getParent( );
 
 ```
 
-### .parent(  void )
+### .parent(  void ) :jno2Instane DOMParent
 pointer getParent
 ```javascript
 
@@ -324,7 +343,7 @@ jno2( selector ).parent( );
 
 ```
 
-### .get(  void || *int* element )
+### .get(  void || *int* element ) ::jno2Instane DOMParent
 
 These function get, prev, next and first who're represented below : allow to browse children elements quickly of his parent,but not in deeply, for browse it in depply use **.child** or **.any** function. 
 
@@ -334,7 +353,7 @@ jno2( selector ).get( ); // return current
 jno2( selector ).get( 0 ); 
 
 ```
-### .next(  void ) 
+### .next(  void ) :jno2Instane DOMParent
 
 ```javascript
 
@@ -342,7 +361,7 @@ jno2( selector ).get( 0 ); // current target 0
 jno2( selector ).next( );  // current target 1
 
 ```
-### .prev(  void ) 
+### .prev(  void ) :jno2Instane DOMParent
 
 ```javascript
 
@@ -350,7 +369,7 @@ jno2( selector ).get( 5 ); // current target 5
 jno2( selector ).prev( );  // current target 4
 
 ```
-### .first(  void ) 
+### .first(  void ) :jno2Instane DOMParent
 
 ```javascript
 
@@ -358,7 +377,7 @@ jno2( selector ).first( ); // current target 0
 
 ```
 
-### .any(  *String* Selector, *Handle* callback )
+### .any(  *String* Selector, *Handle* callback ) :this
 Try to resolve a child(s) in order to return it by the callback.
 ```javascript
 
@@ -369,7 +388,7 @@ jno2( selector ).any("input[type='text']",function( hdl, i ){
 
 ```
 
-### .on( *String* eventCaller, *Handle* callback )
+### .on( *String* eventCaller, *Handle* callback ) :this
 ```javascript
 jno2( selector ).on( "click", function(  domElements [, argv ] ){
   // this === jno2( selector )
