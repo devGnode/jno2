@@ -36,7 +36,7 @@ Offset of target node selected
 
 ## Methods
 
-### .eq( void || *int* node )
+### .eq( void || *int* node ) \:jno2Instance 
 
 ```javascript
   node.eq( 0 );
