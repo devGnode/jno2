@@ -466,7 +466,7 @@ jno2( selector ).offsett( ); // {
 //  top
 //  left
 //  width
-//  left
+//  height
 // }
 ;jno2( selector ).offset("top"); // get
 ```
@@ -540,7 +540,9 @@ jno2.base.formdata({ elemnt1:foo, file: *Object* File, });
 ### Methods
 
 .get( *String* name ) :String
+
 .set( *String* name, *String* value ) :this
+
 .rm( *String* name ) :this
 
 ### jno2.vscanf
