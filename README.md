@@ -56,6 +56,21 @@ return last element obtained
   node.end( );
 ```
 
+**example**:
+
+```html
+<div class="a"></div>
+<div class="b"></div>
+<div class="c"></div>
+```
+
+```javascript
+var node = jno2("div");
+  node.eq( 1 ); // .b
+  node.start( ); // .a
+  node.end( ); // .c
+```
+
 ### .add( *Jno2Instnce* no2 | *DOMElements* dom ) \:this <= 1.2
 
 ```javascript
@@ -88,21 +103,6 @@ return true, allow to break out of this function.
     if( hdl === phdl )
     retur true;
   });
-```
-
-**example**:
-
-```html
-<div class="a"></div>
-<div class="b"></div>
-<div class="c"></div>
-```
-
-```javascript
-var node = jno2("div");
-  node.eq( 1 ); // .b
-  node.start( ); // .a
-  node.end( ); // .c
 ```
 
 ## :two: DOM Attributes
