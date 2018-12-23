@@ -107,20 +107,20 @@ var node = jno2("div");
 
 ## :two: DOM Attributes
 
-### .rmClass( *String* className ) :this
+### .rmClass( *String* className ) \:this
 Remove a class of one elements DOM this function will return current object jno2
 ```javascript
 var node = jno2( selector );
   node.rmClass("foo")
 ```
-### .classSwitch( *String* classFrom, *String* ClassTo ) :this
+### .classSwitch( *String* classFrom, *String* ClassTo ) \:this
 Remove a class of one elements DOM this function will return current object jno2
 ```javascript
 var node = jno2( selector );
   node.classSwitch("foo", "bar" );
 ```
 
-### .isClass( *String* className || RegExp value ) :Boolean
+### .isClass( *String* className || RegExp value ) \:Boolean
 Check if a class existing in an element DOM return **boolean**
 ```javascript
 var node = jno2( selector );
@@ -138,7 +138,7 @@ var node = jno2( selector ),
    }
 ```
 
-### .addClass( *String* className ) :this
+### .addClass( *String* className ) \:this
 Add a class to an element DOM
 ```javascript
 
@@ -150,7 +150,7 @@ link to addClass
 jno2( selector ).Class( "foo" );
 ```
 
-### .toggleClass( *String* classNameA, *String* classNameB ) :this
+### .toggleClass( *String* classNameA, *String* classNameB ) \:this
 If A exists then remove it and add B
 
 ```javascript
@@ -158,7 +158,7 @@ If A exists then remove it and add B
 jno2( selector ).addClass( "foo", "bar" );
   
 ```
-### .id( [ void ||   *String* id ] ) :String
+### .id( [ void ||   *String* id ] ) \:String
 Add an id to an element, or getting this value.
 ```javascript
  //add
@@ -166,7 +166,7 @@ jno2( selector ).id( "foo" );
  //get
 jno2( selector ).id( );
 ```
-### .made( [ *JSON* attibuts || *String* attribName, *String* attribValue ] ) :this
+### .made( [ *JSON* attibuts || *String* attribName, *String* attribValue ] ) \:this
 Modifiy attribtes of an object.
 ```javascript
 
@@ -176,7 +176,7 @@ jno2( selector ).made( {
  
 jno2( selector ).made( "type", "text" );
 ```
-### .css( [ *JSON* attibuts || *String* cssRuleName, *String* cssRuleValue ] ) :this
+### .css( [ *JSON* attibuts || *String* cssRuleName, *String* cssRuleValue ] ) \:this
 
 Modifiy css rule(s)
 ```javascript
@@ -187,7 +187,7 @@ jno2( selector ).made( {
  
 jno2( selector ).made( "fontSize", "15px" );
 ```
-### .isShow( void ) : Bool
+### .isShow( void ) \:Boolean
 
 Modifiy css rule(s)
 ```javascript
