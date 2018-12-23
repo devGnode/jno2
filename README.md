@@ -260,9 +260,11 @@ jno2( selector ).len(  ) // 4
 return string length.
 ```javascript
 
+DOM.onclick = function(){};
+                        ^
+                        |
 jno2( selector ).bind("onclick", "foo", "bar" );
 
-// this == jno2 Object
 
 ```
 
