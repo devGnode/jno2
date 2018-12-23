@@ -43,20 +43,20 @@ Offset of target node selected
   node.eq( ); // current taget node
 ```
 
-### .start( void )
+### .start( void ) \:jno2Instance 
 
 return first element obtained
 ```javascript
   node.start( );
 ```
-### .end( void )
+### .end( void ) \:jno2Instance 
 
 return last element obtained
 ```javascript
   node.end( );
 ```
 
-### .add( *Jno2Instnce* no2 | *DOMElements* dom ) <= 1.2
+### .add( *Jno2Instnce* no2 | *DOMElements* dom ) \:this <= 1.2
 
 ```javascript
   jno2("div").add( jno2("a") )
@@ -64,13 +64,13 @@ return last element obtained
   jno2("div").add( DOMElement )
 ```
 
-### .drop( *int* node ) <= 1.2
+### .drop( *int* node ) \:this <= 1.2
 
 ```javascript
   jno2("div").drop( 5 )
 ```
 
-### .each( *Handle* callbak )
+### .each( *Handle* callbak ) \:this
 
 Traverses each element who were obtained previously.
 
