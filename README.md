@@ -2,7 +2,7 @@
 
 formerly gnode
 
-Warning if you are used to jquery don't use this, because this api is less complete that him, this one is just more lightweight, but less performing than jquery, use this one just for simple get elements only or little work.
+Warning if you are used to jquery don't use this, because this api is less complete that him, this one is just more lightweight, but less performing than jquery, use this one just for simple get elements only or on little project work. End of pages this api include some extends native object.
 
 ## :one: API documentation
 
